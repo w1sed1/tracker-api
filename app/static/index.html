@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Трекер звичок</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <h1>Трекер звичок</h1>
+      <p id="today" class="muted"></p>
+    </header>
+
+    <p id="error" class="error" role="alert" hidden></p>
+
+    <section aria-labelledby="overview-title">
+      <h2 id="overview-title" class="visually-hidden">Загальна статистика</h2>
+      <div class="cards">
+        <div class="card"><span class="card-value" id="ov-today">–</span><span class="card-label">виконано сьогодні</span></div>
+        <div class="card"><span class="card-value" id="ov-rate">–</span><span class="card-label">виконання за 30 днів</span></div>
+        <div class="card"><span class="card-value" id="ov-streak">–</span><span class="card-label">найкраща поточна серія</span></div>
+        <div class="card"><span class="card-value" id="ov-longest">–</span><span class="card-label">рекордна серія</span></div>
+      </div>
+      <div class="charts">
+        <figure class="panel">
+          <figcaption>Виконання по днях, останні 30 днів</figcaption>
+          <div id="chart-daily" class="bars bars-daily"></div>
+        </figure>
+        <figure class="panel">
+          <figcaption>За днями тижня, останні 12 тижнів</figcaption>
+          <div id="chart-weekdays" class="bars bars-labeled"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="habits-title">
+      <h2 id="habits-title">Мої звички</h2>
+      <form id="add-form" class="add-form">
+        <label class="visually-hidden" for="add-name">Назва звички</label>
+        <input id="add-name" name="name" maxlength="100" placeholder="Нова звичка, напр. «Пробіжка»" required>
+        <label class="visually-hidden" for="add-color">Колір</label>
+        <input id="add-color" name="color" type="color" value="#4f7cff">
+        <button type="submit" class="btn-primary">Додати</button>
+      </form>
+      <p id="empty" class="muted" hidden>Звичок ще немає. Додайте першу вище.</p>
+      <ul id="habits" class="habits"></ul>
+    </section>
+  </main>
+
+  <dialog id="details" aria-labelledby="d-name">
+    <div class="dialog-head">
+      <h2 id="d-name"></h2>
+      <button type="button" class="btn-icon" id="d-close" aria-label="Закрити">✕</button>
+    </div>
+    <p id="d-since" class="muted"></p>
+    <div class="cards cards-small">
+      <div class="card"><span class="card-value" id="d-streak"></span><span class="card-label">поточна серія</span></div>
+      <div class="card"><span class="card-value" id="d-longest"></span><span class="card-label">рекордна серія</span></div>
+      <div class="card"><span class="card-value" id="d-total"></span><span class="card-label">всього відміток</span></div>
+      <div class="card"><span class="card-value" id="d-rate30"></span><span class="card-label">за 30 днів</span></div>
+      <div class="card"><span class="card-value" id="d-rate-all"></span><span class="card-label">за весь час</span></div>
+    </div>
+    <figure>
+      <figcaption>Відмітки по тижнях, останні 12 тижнів</figcaption>
+      <div id="d-weekly" class="bars bars-labeled"></div>
+    </figure>
+    <figure>
+      <figcaption>Календар, останні 26 тижнів</figcaption>
+      <div id="d-heatmap" class="heatmap"></div>
+    </figure>
+    <form id="edit-form" class="add-form">
+      <label class="visually-hidden" for="edit-name">Назва</label>
+      <input id="edit-name" name="name" maxlength="100" required>
+      <label class="visually-hidden" for="edit-color">Колір</label>
+      <input id="edit-color" name="color" type="color">
+      <button type="submit" class="btn-primary">Зберегти</button>
+      <button type="button" id="d-delete" class="btn-danger">Видалити</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
