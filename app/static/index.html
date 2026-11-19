@@ -35,6 +35,31 @@
       </div>
     </section>
 
+    <section class="panel ai" aria-labelledby="ai-title">
+      <div class="ai-head">
+        <div>
+          <h2 id="ai-title">AI-аналіз</h2>
+          <p class="muted">Google Gemini читає вашу статистику і дає поради</p>
+        </div>
+        <button type="button" id="ai-run" class="btn-primary">Проаналізувати</button>
+      </div>
+      <p id="ai-status" class="muted" aria-live="polite"></p>
+      <div id="ai-report" class="ai-report" hidden>
+        <p id="ai-summary" class="ai-summary"></p>
+        <div class="ai-cols">
+          <div>
+            <h3>Що вже виходить</h3>
+            <ul id="ai-strengths"></ul>
+          </div>
+          <div>
+            <h3>Фокус на тиждень</h3>
+            <p id="ai-focus"></p>
+          </div>
+        </div>
+        <ul id="ai-habits" class="ai-habits"></ul>
+      </div>
+    </section>
+
     <section class="panel" aria-labelledby="habits-title">
       <h2 id="habits-title">Мої звички</h2>
       <form id="add-form" class="add-form">
@@ -44,6 +69,13 @@
         <input id="add-color" name="color" type="color" value="#4f7cff">
         <button type="submit" class="btn-primary">Додати</button>
       </form>
+      <form id="suggest-form" class="add-form">
+        <label class="visually-hidden" for="goal">Ціль</label>
+        <input id="goal" name="goal" minlength="3" maxlength="200" placeholder="Ціль, напр. «краще висипатися» — AI підкаже звички" required>
+        <button type="submit" id="suggest-run">Підказати звички</button>
+      </form>
+      <p id="suggest-status" class="muted" aria-live="polite"></p>
+      <ul id="suggestions" class="suggestions"></ul>
       <p id="empty" class="muted" hidden>Звичок ще немає. Додайте першу вище.</p>
       <ul id="habits" class="habits"></ul>
     </section>

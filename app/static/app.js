@@ -41,7 +41,7 @@ async function api(method, path, body) {
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    const detail = Array.isArray(data.detail) ? "Перевірте назву і колір" : data.detail;
+    const detail = Array.isArray(data.detail) ? "Перевірте введені дані" : data.detail;
     throw new Error(detail || `Помилка сервера (${res.status})`);
   }
   return res.status === 204 ? null : res.json();
@@ -203,6 +203,63 @@ $("d-delete").onclick = () => {
   openHabitId = null;
   $("details").close();
   run(() => api("DELETE", `/api/habits/${id}`));
+};
+
+// AI requests take seconds; the button is locked and a status line shows progress or the error.
+async function aiCall(button, status, waiting, request) {
+  button.disabled = true;
+  status.classList.remove("error-text");
+  status.textContent = waiting;
+  try {
+    const result = await request();
+    const m = result.meta;
+    status.textContent = `Готово за ${m.seconds} с · ${m.model} · ${m.input_tokens + m.output_tokens} токенів`;
+    return result;
+  } catch (err) {
+    status.classList.add("error-text");
+    status.textContent = err.message;
+    return null;
+  } finally {
+    button.disabled = false;
+  }
+}
+
+$("ai-run").onclick = async () => {
+  const r = await aiCall($("ai-run"), $("ai-status"), "Gemini аналізує статистику…", () => api("POST", "/api/ai/report"));
+  if (!r) return;
+  $("ai-summary").textContent = r.summary;
+  $("ai-strengths").replaceChildren(...r.strengths.map((s) => el("li", null, s)));
+  $("ai-focus").textContent = r.focus;
+  $("ai-habits").replaceChildren(...r.habits.map((h) => {
+    const item = el("li", "ai-habit");
+    const head = el("div", "ai-habit-head");
+    head.append(el("strong", null, h.name), el("span", "badge badge-" + h.status.replace(/ /g, "-"), h.status));
+    item.append(head, el("p", null, h.advice));
+    return item;
+  }));
+  $("ai-report").hidden = false;
+};
+
+const PALETTE = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6"];
+
+$("suggest-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const r = await aiCall($("suggest-run"), $("suggest-status"), "Gemini підбирає звички…",
+    () => api("POST", "/api/ai/suggest", { goal: $("goal").value }));
+  if (!r) return;
+  $("suggestions").replaceChildren(...r.habits.map((h, i) => {
+    const item = el("li", "suggestion");
+    const text = el("div");
+    text.append(el("strong", null, h.name), el("span", "muted", h.why));
+    const add = el("button", null, "Додати");
+    add.type = "button";
+    add.onclick = () => run(async () => {
+      await api("POST", "/api/habits", { name: h.name, color: PALETTE[i % PALETTE.length] });
+      item.remove();
+    });
+    item.append(text, add);
+    return item;
+  }));
 };
 
 $("d-close").onclick = () => $("details").close();

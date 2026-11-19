@@ -8,7 +8,7 @@ from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, StringConstraints
 
-from . import db, stats
+from . import ai, db, stats
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -41,6 +41,10 @@ Today = Annotated[date, Depends(get_today)]
 class HabitIn(BaseModel):
     name: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
     color: Annotated[str, StringConstraints(pattern=r"^#[0-9a-fA-F]{6}$")] = "#4f7cff"
+
+
+class GoalIn(BaseModel):
+    goal: Annotated[str, StringConstraints(strip_whitespace=True, min_length=3, max_length=200)]
 
 
 def existing_habit(conn: sqlite3.Connection, habit_id: int) -> dict:
@@ -107,6 +111,28 @@ def overview(conn: Conn, today: Today):
     days = db.checkins(conn)
     habits = [(h["created_on"], days.get(h["id"], set())) for h in db.list_habits(conn)]
     return stats.overview(habits, today)
+
+
+@app.post("/api/ai/report")
+def ai_report(conn: Conn, today: Today):
+    days = db.checkins(conn)
+    habits = db.list_habits(conn)
+    if not habits:
+        raise HTTPException(422, "Додайте хоча б одну звичку")
+    detailed = [h | {"stats": stats.details(days.get(h["id"], set()), h["created_on"], today)} for h in habits]
+    totals = stats.overview([(h["created_on"], days.get(h["id"], set())) for h in habits], today)
+    try:
+        return ai.report(detailed, totals)
+    except ai.AIError as err:
+        raise HTTPException(err.status, str(err)) from err
+
+
+@app.post("/api/ai/suggest")
+def ai_suggest(body: GoalIn, conn: Conn):
+    try:
+        return ai.suggest(body.goal, [h["name"] for h in db.list_habits(conn)])
+    except ai.AIError as err:
+        raise HTTPException(err.status, str(err)) from err
 
 
 # Registered last so the /api routes above take precedence.

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>Трекер звичок + AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Mono&display=block" rel="stylesheet">
+<style>
+  /* Beamer "Madrid"-style deck, 4:3. Print: Chrome --print-to-pdf (see README). */
+  @page { size: 1024px 768px; margin: 0; }
+  :root {
+    --blue: #3333b3;
+    --blue-mid: #262686;
+    --blue-dark: #191959;
+    --block: #e9e9f3;
+    --shadow: 1px 1px 0 rgb(0 0 0 / .2), 2px 2px 0 rgb(0 0 0 / .15), 3px 3px 0 rgb(0 0 0 / .1), 4px 4px 0 rgb(0 0 0 / .06), 5px 5px 0 rgb(0 0 0 / .03);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: #777; font-family: "PT Sans", sans-serif; }
+  @media screen { .slide { margin: 16px auto; } }
+
+  .slide {
+    width: 1024px; height: 768px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    background: #fff; color: #000; font-size: 23px; line-height: 1.42;
+    break-after: page;
+  }
+  .slide > header {
+    height: 76px; flex: none; display: flex; align-items: center; padding: 0 26px;
+    background: var(--blue); color: #fff; font-size: 33px;
+  }
+  .body { flex: 1; min-height: 0; padding: 10px 24px 14px; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .body > p { margin: 0; }
+  footer {
+    height: 24px; flex: none; display: grid; grid-template-columns: 1fr 1fr 1fr;
+    font-size: 12.5px; color: #fff;
+  }
+  footer > span { display: flex; align-items: center; justify-content: center; }
+  footer > span:nth-child(1) { background: var(--blue-dark); }
+  footer > span:nth-child(2) { background: var(--blue-mid); }
+  footer > span:nth-child(3) { background: var(--blue); justify-content: flex-end; gap: 46px; padding-right: 18px; }
+
+  b, strong { font-weight: 700; }
+  .block { background: var(--block); border-radius: 7px; box-shadow: var(--shadow); padding: 7px 14px; }
+  .titled > h3 { margin: 0 0 10px; padding: 6px 14px; font-size: 23px; font-weight: 700; background: var(--block); border-radius: 7px; box-shadow: var(--shadow); }
+  .titled > h3 span { font-weight: 400; }
+  .titled > p { margin: 0; padding: 0 14px; font-size: 21px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .small { font-size: 20px; }
+
+  ul.balls, ol.balls { margin: 0; padding-left: 44px; list-style: none; }
+  ul.balls > li, ol.balls > li { position: relative; margin: 7px 0; }
+  ul.balls > li::before {
+    content: ""; position: absolute; left: -27px; top: .42em; width: 13px; height: 13px; border-radius: 50%;
+    background: radial-gradient(circle at 34% 32%, #a6a6ee 0, var(--blue) 46%, #0e0e44 100%);
+  }
+  ol.balls { counter-reset: n; }
+  ol.balls > li::before {
+    counter-increment: n; content: counter(n);
+    position: absolute; left: -33px; top: .2em; width: 21px; height: 21px; border-radius: 50%;
+    font-size: 13px; line-height: 21px; text-align: center; color: #fff;
+    background: radial-gradient(circle at 34% 32%, #a6a6ee 0, var(--blue) 46%, #0e0e44 100%);
+  }
+
+  table.bt { border-collapse: collapse; width: 100%; }
+  table.bt thead tr { border-top: 2px solid #000; border-bottom: 1px solid #000; }
+  table.bt tbody tr:last-child { border-bottom: 2px solid #000; }
+  table.bt tbody tr:first-child td { padding-top: 9px; }
+  table.bt th, table.bt td { text-align: left; vertical-align: top; font-weight: 400; padding: 3px 12px; }
+  table.bt th:first-child, table.bt td:first-child { padding-left: 4px; white-space: nowrap; }
+  table.bt th.b { font-weight: 700; }
+
+  pre.code {
+    margin: 0; padding: 10px 14px; font: 15px/1.38 "PT Mono", monospace; white-space: pre;
+    background: var(--block); border-radius: 7px; box-shadow: var(--shadow);
+  }
+  pre.code .k { color: var(--blue); font-weight: 700; }
+  pre.code .c { color: #6a6a7a; }
+  code { font-family: "PT Mono", monospace; font-size: .9em; }
+
+  /* Title and closing slides */
+  .title-body { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+  .title-box {
+    width: 100%; padding: 22px 20px 24px; margin-bottom: 44px; border-radius: 10px;
+    background: var(--blue); color: #fff; box-shadow: var(--shadow);
+  }
+  .title-box h1 { margin: 0 0 8px; font-size: 36px; font-weight: 400; }
+  .title-box p { margin: 0; font-size: 24px; }
+  .author { font-size: 24px; margin-bottom: 26px; }
+  .inst { font-size: 17px; line-height: 1.4; margin-bottom: 30px; }
+  .date { font-size: 22px; }
+  .thanks { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 56px; }
+
+  /* Diagram */
+  svg text { font-family: "PT Sans", sans-serif; }
+
+  .shot { display: grid; grid-template-columns: 540px 1fr; gap: 26px; align-items: center; }
+  .shot img { width: 540px; border: 1px solid #ccc; box-shadow: var(--shadow); display: block; }
+  .quote { margin: 0 0 0 30px; font-style: italic; font-size: 21px; }
+  .quote b { font-style: normal; }
+  table.facts td { padding: 1px 22px 1px 4px; font-size: 21px; }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="title-body">
+    <div class="title-box">
+      <h1>Трекер звичок + AI</h1>
+      <p>Аналіз статистики звичок через Google Gemini API</p>
+    </div>
+    <div class="author">Михайло Костенко</div>
+    <div class="inst">Кафедра теоретичної кібернетики<br>Факультет комп’ютерних наук та кібернетики<br>Київський національний університет імені Тараса Шевченка</div>
+    <div class="date">12 листопада 2026 р.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Ідея</header>
+  <div class="body">
+    <div class="block">Почати звичку легко, а втримати — важко.</div>
+    <p>Трекер рахує серії та відсотки, але цифри не відповідають на головне: <b>чому</b> звичка зривається і <b>що змінити</b>.</p>
+    <div class="block">Додамо до трекера <b>AI-коуча</b>.</div>
+    <ul class="balls">
+      <li><b>Трекер</b> — зберігає відмітки й рахує статистику;</li>
+      <li><b>Gemini</b> — читає статистику й пише висновки та поради.</li>
+    </ul>
+    <p>Цифри перетворюються на конкретний план на тиждень.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Штучний інтелект як хмарний сервіс</header>
+  <div class="body">
+    <div class="block">Хмара — обчислювальні ресурси <b>за запитом</b> з <b>оплатою за використання</b>.</div>
+    <table class="bt">
+      <thead><tr><th>Модель</th><th>Що надає провайдер</th><th>Приклади</th></tr></thead>
+      <tbody>
+        <tr><td>IaaS</td><td>віртуальні машини, мережі, диски</td><td>Compute Engine, AWS EC2</td></tr>
+        <tr><td>PaaS</td><td>платформу для запуску коду</td><td>Cloud Run, Azure App Service</td></tr>
+        <tr><td>SaaS</td><td>готовий застосунок</td><td>Gmail, Google Docs</td></tr>
+        <tr><td><b>AIaaS</b></td><td><b>готову AI-модель через API</b></td><td><b>Gemini API</b>, Azure OpenAI</td></tr>
+      </tbody>
+    </table>
+    <div class="block">Проєкт — <b>споживач AIaaS</b>: модель не потрібно навчати, розміщувати чи купувати для неї GPU — достатньо HTTP-запиту.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Хмарні платформи з AI-сервісами</header>
+  <div class="body">
+    <table class="bt">
+      <thead><tr><th>Провайдер</th><th>Сервіс</th><th>Моделі</th></tr></thead>
+      <tbody>
+        <tr><td>Google Cloud</td><td>Gemini API, Vertex AI</td><td>Gemini, Gemma</td></tr>
+        <tr><td>Microsoft Azure</td><td>Azure AI Foundry</td><td>GPT, Phi, Llama</td></tr>
+        <tr><td>Amazon AWS</td><td>Amazon Bedrock</td><td>Nova, Llama, Mistral</td></tr>
+      </tbody>
+    </table>
+    <div class="block">Обрано <b>Google Gemini API</b>.</div>
+    <ul class="balls">
+      <li><b>структурована відповідь</b>: модель повертає JSON за нашою схемою — програмі не треба розбирати текст;</li>
+      <li>простий <b>REST</b>: один POST-запит, достатньо стандартної бібліотеки Python;</li>
+      <li>безкоштовний рівень — без підключення білінгу.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Gemini API</header>
+  <div class="body">
+    <div class="block">Gemini — сімейство моделей Google, що розуміють текст, зображення, аудіо, відео та PDF; контекст — до <b>1 млн токенів</b>.</div>
+    <p>У проєкті — дві моделі через <b>Interactions API</b>:</p>
+    <ul class="balls">
+      <li><b>Gemini 3.8 Flash</b> — основна: аналізує статистику й підбирає звички;</li>
+      <li><b>Gemini 3.5 Flash-Lite</b> — запасна, якщо основна перевантажена.</li>
+    </ul>
+    <div class="cols">
+      <div class="titled"><h3>Gemini Developer API</h3><p>доступ за API-ключем, безкоштовний рівень — для прототипів (використано в проєкті).</p></div>
+      <div class="titled"><h3>Vertex AI <span>(Google Cloud)</span></h3><p>доступ через IAM, SLA, вибір регіону зберігання даних — для промислового використання.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Як це працює: що в хмарі, а що локально</header>
+  <div class="body">
+    <svg viewBox="0 0 976 330" width="976" height="330" aria-label="Схема: браузер, наш сервер, Gemini у Google Cloud">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+          <path d="M0,1 L10,5 L0,9 L3,5 z" fill="#3333b3"/>
+        </marker>
+      </defs>
+      <rect x="18" y="104" width="166" height="96" rx="12" fill="#f3f3fb" stroke="#3333b3" stroke-width="1.6"/>
+      <text x="101" y="146" text-anchor="middle" font-size="24">Користувач</text>
+      <text x="101" y="174" text-anchor="middle" font-size="17">браузер</text>
+      <rect x="266" y="104" width="208" height="96" rx="12" fill="#f3f3fb" stroke="#3333b3" stroke-width="1.6"/>
+      <text x="370" y="138" text-anchor="middle" font-size="24">Наш сервер</text>
+      <text x="370" y="164" text-anchor="middle" font-size="17">FastAPI + SQLite</text>
+      <text x="370" y="186" text-anchor="middle" font-size="17">ноутбук, без GPU</text>
+      <text x="223" y="142" text-anchor="middle" font-size="17" fill="#3333b3">запит</text>
+      <text x="235" y="292" text-anchor="middle" font-size="17" fill="#3333b3">висновки й поради</text>
+      <text x="538" y="142" text-anchor="middle" font-size="16" fill="#3333b3">статистика</text>
+      <text x="538" y="176" text-anchor="middle" font-size="16" fill="#3333b3">JSON-звіт</text>
+
+      <rect x="632" y="34" width="330" height="284" rx="14" fill="#f7f7fc" stroke="#3333b3" stroke-width="1.4" stroke-dasharray="8 7"/>
+      <text x="797" y="22" text-anchor="middle" font-size="19" fill="#3333b3">Google Cloud</text>
+      <rect x="668" y="54" width="262" height="84" rx="12" fill="#3333b3"/>
+      <text x="799" y="90" text-anchor="middle" font-size="24" fill="#fff">Gemini 3.8 Flash</text>
+      <text x="799" y="118" text-anchor="middle" font-size="16" fill="#fff">аналіз і поради</text>
+      <rect x="668" y="184" width="262" height="84" rx="12" fill="#3333b3"/>
+      <text x="799" y="220" text-anchor="middle" font-size="24" fill="#fff">Gemini 3.5 Flash-Lite</text>
+      <text x="799" y="248" text-anchor="middle" font-size="16" fill="#fff">запасна модель</text>
+      <g fill="none" stroke="#3333b3" stroke-width="2.2">
+        <path d="M184 152 H262" marker-end="url(#arr)"/>
+        <path d="M368 200 V262 H102 V206" marker-end="url(#arr)"/>
+        <path d="M474 152 H604" marker-start="url(#arr)"/>
+        <path d="M604 96 V226"/>
+        <path d="M604 96 H664" marker-end="url(#arr)"/>
+        <path d="M604 226 H664" marker-end="url(#arr)"/>
+      </g>
+    </svg>
+    <div class="cols">
+      <div class="titled"><h3>У хмарі</h3><p>аналіз статистики, висновки й поради, підбір звичок під ціль — уся робота моделі на GPU Google.</p></div>
+      <div class="titled"><h3>Локально</h3><p>зберігання відміток, підрахунок серій і відсотків, графіки та інтерфейс.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Запит до Gemini API</header>
+  <div class="body">
+<pre class="code"><span class="k">POST</span> https://generativelanguage.googleapis.com/v1beta/interactions
+x-goog-api-key: &lt;ключ&gt;            Api-Revision: 2026-05-20
+
+{
+  "model": "gemini-3.8-flash",
+  "system_instruction": "Ти — уважний коуч зі звичок…",
+  "input": "Проаналізуй мою статистику… {\"habits\": [ … ]}",
+  "response_format": {
+    "type": "text", "mime_type": "application/json",
+    "schema": { "type": "object", "properties": {
+      "summary": …, "strengths": …, "habits": …, "focus": … } }
+  },
+  "store": false                   <span class="c">// не зберігати діалог на сервері</span>
+}</pre>
+    <ul class="balls small">
+      <li>Відповідь: крок <code>model_output</code> з текстом — JSON, що <b>відповідає схемі</b>; <code>usage</code> — кількість токенів.</li>
+      <li>Коди <code>429</code> / <code>503</code> (ліміт, перевантаження) → той самий запит до запасної моделі.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Веб-інтерфейс</header>
+  <div class="body">
+    <div class="shot">
+      <img src="screenshot.png" alt="Веб-інтерфейс трекера з AI-аналізом">
+      <div>
+        <ol class="balls">
+          <li>Відмічати звички щодня одним кліком.</li>
+          <li>Дивитися статистику: серії, відсотки, графіки.</li>
+          <li>Натиснути «Проаналізувати» — отримати висновки й поради.</li>
+        </ol>
+        <div class="block" style="margin-top:22px">Під відповіддю — час запиту, модель і кількість токенів.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Що вміє програма</header>
+  <div class="body">
+    <ul class="balls">
+      <li>Відмічати звички за останні 7 днів <b>одним кліком</b>.</li>
+      <li><b>Статистика</b>: поточна й рекордна серії, відсоток виконання, графіки по тижнях і днях тижня, календар за пів року.</li>
+      <li><b>AI-звіт</b>: загальна оцінка, сильні сторони, статус і порада для кожної звички, фокус на тиждень.</li>
+      <li><b>Підбір звичок під ціль</b>: «краще висипатися» → 3 звички, кожну можна додати одним кліком.</li>
+      <li>Відповідь моделі — <b>JSON за схемою</b>, тож інтерфейс одразу показує її картками.</li>
+      <li><b>REST API</b> зі Swagger-документацією — для вбудовування в інші системи.</li>
+      <li>Якщо хмарна модель перевантажена — <b>автоматично переходить на запасну</b>.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Чого програма не вміє</header>
+  <div class="body">
+    <ul class="balls">
+      <li>Бачить <b>лише цифри</b>: не знає причин пропусків, настрою чи обставин.</li>
+      <li>Поради — <b>загальні рекомендації</b>, а не медична чи психологічна консультація.</li>
+      <li>Може <b>неточно витлумачити</b> статистику — звіт варто перевіряти.</li>
+      <li>Звіт формується <b>за запитом</b>: ні щотижневих звітів, ні нагадувань.</li>
+      <li><b>Без інтернету</b> AI-функції не працюють (трекер і статистика — працюють).</li>
+      <li>Це <b>прототип</b>: запускається локально, один користувач, без акаунтів.</li>
+    </ul>
+    <div class="block">Більшість обмежень — свідомі спрощення прототипу, а не обмеження хмарного сервісу.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Приклад: 4 звички, 90 днів історії</header>
+  <div class="body">
+    <p><b>Вхід:</b> [[EX_INPUT]]</p>
+    <p><b>Вихід:</b> [[EX_OUTPUT]]</p>
+    <p class="quote">[[EX_QUOTE]]</p>
+    <table class="facts">
+      <tr><td>запит:</td><td>[[EX_SECONDS]]</td><td>модель:</td><td>[[EX_MODEL]]</td></tr>
+      <tr><td>токени:</td><td>[[EX_TOKENS]]</td><td>вартість:</td><td>0 на безкоштовному рівні</td></tr>
+    </table>
+    <div class="block">[[EX_TAKEAWAY]]</div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Скільки це коштує</header>
+  <div class="body">
+    <div class="block">Хмарна модель оплати <b>pay-as-you-go</b>: платимо лише за оброблені <b>токени</b> — без серверів і підписок.</div>
+    <table class="bt">
+      <thead><tr><th></th><th class="b">Безкоштовний рівень</th><th class="b">Платний рівень</th></tr></thead>
+      <tbody>
+        <tr><td>Ціна</td><td>0</td><td>$0,75 / $3,75 за 1 млн токенів (вхід / вихід)</td></tr>
+        <tr><td>Один звіт</td><td>0</td><td>[[EX_COST]] (оцінка за прикладом)</td></tr>
+        <tr><td>Ліміти</td><td>обмежена кількість запитів на хвилину й добу</td><td>вищі, зростають з рівнем</td></tr>
+        <tr><td>Дані</td><td>можуть використовуватися для покращення продуктів Google</td><td>не використовуються</td></tr>
+      </tbody>
+    </table>
+    <ul class="balls small">
+      <li>Для навчання й демонстрації безкоштовного рівня достатньо.</li>
+      <li>Хмарні ціни змінюються: з 1 січня 2027 р. тарифи Gemini 3.8 Flash подвояться ($1,50 / $7,50).</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Сфери застосування</header>
+  <div class="body">
+    <div class="cols">
+      <ul class="balls small">
+        <li><b>Здоров’я й фітнес</b>: аналіз тренувань, сну, харчування;</li>
+        <li><b>Освіта</b>: розбір успішності й персональний план навчання;</li>
+        <li><b>Фінанси</b>: категорії витрат і поради щодо бюджету;</li>
+        <li><b>HR</b>: підсумки опитувань і звітів команди;</li>
+      </ul>
+      <ul class="balls small">
+        <li><b>Підтримка клієнтів</b>: класифікація звернень у JSON;</li>
+        <li><b>Бізнес-аналітика</b>: текстові висновки до дашбордів;</li>
+        <li><b>Документи</b>: витяг полів з договорів і рахунків;</li>
+        <li><b>IoT</b>: пояснення показників датчиків.</li>
+      </ul>
+    </div>
+    <div class="block">Ключова можливість — <b>structured output</b>: відповідь моделі одразу стає даними для програми. Так AI-аналіз можна вбудувати у власний продукт через публічний API.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Як розвинути проєкт у хмарі</header>
+  <div class="body">
+    <ul class="balls">
+      <li><b>Cloud Run</b> (PaaS) — розгорнути сервер у хмарі: доступ з телефона й автоматичне масштабування.</li>
+      <li><b>Firestore</b> або <b>Cloud SQL</b> — хмарна база замість локального файлу SQLite.</li>
+      <li><b>Firebase Authentication</b> — акаунти: кожен бачить лише свої звички.</li>
+      <li><b>Cloud Scheduler</b> — щонеділі формувати AI-звіт автоматично.</li>
+      <li><b>Firebase Cloud Messaging</b> — нагадування про звички на телефон.</li>
+      <li><b>Vertex AI</b> — для чутливих даних про здоров’я: вибір регіону й гарантії щодо даних.</li>
+    </ul>
+    <div class="block">Кожен крок — ще один керований хмарний сервіс, а не власна інфраструктура.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <header>Висновки</header>
+  <div class="body">
+    <ol class="balls">
+      <li>Хмарний AI-сервіс перетворює сирі цифри статистики на <b>зрозумілі висновки й поради</b> — без власних моделей і GPU.</li>
+      <li><b>Structured output</b> повертає JSON за схемою: інтеграція — один HTTP-запит без розбору тексту.</li>
+      <li>Модель оплати <b>pay-as-you-go</b>: прототип — безкоштовно, у платному рівні — [[EX_COST_SHORT]] за звіт.</li>
+    </ol>
+    <div class="block">Код проєкту: <code>https://github.com/w1sed1/tracker-api</code></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="thanks">Дякую за увагу!</div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll(".slide");
+  slides.forEach((slide, i) => {
+    const footer = document.createElement("footer");
+    footer.innerHTML = `<span>М. Костенко (КНУТШ)</span><span>Трекер звичок + AI</span>`
+      + `<span><span>12 листопада 2026 р.</span><span>${i + 1} / ${slides.length}</span></span>`;
+    slide.append(footer);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "jobId": "1d214147-4e04-4993-bd60-75d77e035186",
+  "sessionId": "17639262-04a9-408a-8379-72aa88e7fb35",
+  "scopeKey": "4d16b0b955bf8fe8cd9eaec4ed8acbe0473b0933b9b6aa8055939d79ae14cb22",
+  "revision": 1,
+  "createdAt": "2026-11-18T14:21:08.352Z",
+  "updatedAt": "2026-11-18T14:21:08.486Z",
+  "producerGraceExpiresAt": "2026-11-18T14:21:38.354Z",
+  "bestEffortDeadlineAt": "2026-11-18T14:22:31.354Z",
+  "producers": {
+    "core": {
+      "state": "prepared",
+      "intentKey": "15d809dd580bc6f171ff23e9cc05816e04c3af6691e64845d57cc5ee76ff0e1a",
+      "payloadDigest": "15d809dd580bc6f171ff23e9cc05816e04c3af6691e64845d57cc5ee76ff0e1a"
+    },
+    "wiki": {
+      "state": "no-op",
+      "sealedAt": "2026-11-18T14:21:08.486Z",
+      "sealedBy": "wiki-producer"
+    }
+  },
+  "actions": {
+    "foreground-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "160d2eb7befecba53fa9eb9c14eda1b95ed9289c3113bd9a7d3b68a3aca98537",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "wiki-capture": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 0,
+      "idempotencyKey": "f5e3baa837ae06ce2a0c391127a10031f37b99317787331bca6fefad392e9dca",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000,
+      "completedAt": "2026-11-18T14:21:08.486Z"
+    },
+    "team-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "a2099911aee8daa92eafcf0fc23c9be2c30ddf84ea0d968dda84a67feca5cb05",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "python-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "ad79d2558066a77c4a8266c5be47e9c9e92b8129e781a010f8345f45752f8449",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "reply-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "94a53ed6994755626133e910fa79afd55fe8cee72d5876936c938c84e8aaee92",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "callback": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "cc7e8583af168354101568c898c9cc167ffd2e6e0dbb611623924911684d9853",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    },
+    "notification": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "56e7a3251f5826ee1f81881085123a3e955f1c7674256170fe29c71ea19d6d63",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    },
+    "openclaw": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "89f6bba33b0d7c98709c7fd53a47ba7079364b31aebc6f8d33877b81bac57bb7",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    },
+    "spawn-next": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "d3ac39b59daedaa08aaff9b0025dd3f3e7dde355bcddddf96685a030fd035c76",
+      "payload": {
+        "transcriptPath": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+        "cwd": "/Users/w1sed1/habit-tracker",
+        "reason": "other",
+        "input": {
+          "session_id": "17639262-04a9-408a-8379-72aa88e7fb35",
+          "transcript_path": "/Users/w1sed1/.claude/projects/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35.jsonl",
+          "cwd": "/Users/w1sed1/habit-tracker",
+          "scratchpad_dir": "/private/tmp/claude-501/-Users-w1sed1-habit-tracker/17639262-04a9-408a-8379-72aa88e7fb35/scratchpad",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "initialTeamNames": [],
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    }
+  },
+  "owner": null,
+  "phase": "collecting"
+}

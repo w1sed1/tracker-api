@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1795011666479,
+  "projectRoot": "/Users/w1sed1/habit-tracker",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "pyproject.toml",
+          "requirements.txt"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "pip",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "pytest",
+    "lintCommand": "ruff check",
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": "snake_case",
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "app",
+      "tests"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "app": {
+      "path": "app",
+      "purpose": "Application code",
+      "fileCount": 6,
+      "lastAccessed": 1795011666467,
+      "keyFiles": [
+        "__init__.py",
+        "ai.py",
+        "db.py",
+        "main.py",
+        "seed.py"
+      ]
+    },
+    "presentation": {
+      "path": "presentation",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1795011666468,
+      "keyFiles": [
+        "slides.html"
+      ]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 3,
+      "lastAccessed": 1795011666469,
+      "keyFiles": [
+        "test_ai.py",
+        "test_api.py",
+        "test_stats.py"
+      ]
+    },
+    "app/static": {
+      "path": "app/static",
+      "purpose": "Static files",
+      "fileCount": 3,
+      "lastAccessed": 1795011666470,
+      "keyFiles": [
+        "app.js",
+        "index.html",
+        "style.css"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "presentation/slides.html",
+      "accessCount": 1,
+      "lastAccessed": 1795012614487,
+      "type": "file"
+    },
+    {
+      "path": "app/ai.py",
+      "accessCount": 1,
+      "lastAccessed": 1795012614983,
+      "type": "file"
+    },
+    {
+      "path": "app/main.py",
+      "accessCount": 1,
+      "lastAccessed": 1795012615297,
+      "type": "file"
+    },
+    {
+      "path": "app/stats.py",
+      "accessCount": 1,
+      "lastAccessed": 1795012615805,
+      "type": "file"
+    },
+    {
+      "path": "app/db.py",
+      "accessCount": 1,
+      "lastAccessed": 1795012616048,
+      "type": "file"
+    },
+    {
+      "path": "app/static/app.js",
+      "accessCount": 1,
+      "lastAccessed": 1795012618070,
+      "type": "file"
+    },
+    {
+      "path": "app/static/index.html",
+      "accessCount": 1,
+      "lastAccessed": 1795012618456,
+      "type": "file"
+    },
+    {
+      "path": "app/seed.py",
+      "accessCount": 1,
+      "lastAccessed": 1795012618906,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
